@@ -161,7 +161,6 @@ def read_english_NRC_corpus(corpus_file):
 def extract_emolex_emotion_polarity_words():
     
     words, emo_pol_labels = read_english_NRC_corpus("english_NRC_emolex.txt")
-    
     anger_words = []
     fear_words = []
     joy_words = []
@@ -202,52 +201,39 @@ def emolex_labels_for_high_gram_models(text_in_list):
     anger_words, fear_words, joy_words, sadness_words, trust_words, surprise_words, anticipation_words, disgust_words, positive_words, negative_words = extract_emolex_emotion_polarity_words()
 
     emolex_labels = []
-    
     for line in text_in_list:
-        
         X_sentences = []
         
         for w in line:
-        
             new_sentences = []
             lowered_words = w.lower()    
-        
             if lowered_words in anger_words:
                 label = "_ANGER_" 
                 new_sentences.append(label)
-                
             if lowered_words in sadness_words:
                 label = "_SADNESS_"
                 new_sentences.append(label)
-    
             if lowered_words in joy_words:
                 label = "_JOY_"
                 new_sentences.append(label)
-            
             if lowered_words in fear_words:
                 label = "_FEAR_"
                 new_sentences.append(label)
-                
             if lowered_words in trust_words:
                 label = "_TRUST_"
                 new_sentences.append(label)
-                
             if lowered_words in anticipation_words:
                 label = "_ANTICIPATION_"
                 new_sentences.append(label)
-                
             if lowered_words in surprise_words:
                 label = "_SURPRISE_"
                 new_sentences.append(label)
-                
             if lowered_words in disgust_words:
                 label = "_DISGUST_"
                 new_sentences.append(label)
-                
             if lowered_words in positive_words:
                 label = "_POSITIVE_"
                 new_sentences.append(label)
-            
             if lowered_words in negative_words:
                 label = "_NEGATIVE_"
                 new_sentences.append(label)
@@ -294,32 +280,25 @@ def stemmed_words_with_placeholders(text_in_list):
                              "hadn't","HADN'T","Hadn't"]
 
     for line in text_in_list:
-        
         numbers = re.findall(r"([0-9]+)"," ".join(line))
         X_sentences = []
         
         for w in line:
-        
             new_sentences = []
             stemmed_words = stemmer.stem(w)
-    
             if stemmed_words in adversative_conjunctions_labels:
                 label = "ADVERSATIVE" 
                 new_sentences.append(label)
-                
             if stemmed_words in negative_items_labels:
                 label = "NEG"
                 new_sentences.append(label)
-    
             if stemmed_words in numbers:
                 label = "NUMBER"
                 new_sentences.append(label)
-                
             if stemmed_words not in negative_items_labels:
                 if stemmed_words not in adversative_conjunctions_labels:
                     if stemmed_words not in numbers:
-                        new_sentences.append(stemmed_words)
-                        
+                        new_sentences.append(stemmed_words)       
             X_sentences += new_sentences
         text_with_stemmed_words_with_placeholders.append(X_sentences)
     return text_with_stemmed_words_with_placeholders
